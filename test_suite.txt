@@ -1,0 +1,17 @@
+help
+echo Hello World
+set testVar Hello_Variable
+print testVar
+echo $testVar
+mkdir test_dir
+cd test_dir
+echo "Test content" > test_file.txt
+cat test_file.txt
+ls
+cd ..
+set var1 first_program
+set var2 second_program
+echo $var1
+echo $var2
+resetmem
+print var1
