@@ -10,6 +10,22 @@ An OS simulator project to help me learn about the shell interface and basic OS 
 
 The design mimics a simplified OS kernel layered over a block device simulator (`blank.dsk`).
 
+## Architecture Overview
+
+| Layer                 | Files                         | Responsibilities                                                                         |
+|-----------------------|-------------------------------|------------------------------------------------------------------------------------------|
+| Shell & Interpreter   | `shell.c`, `interpreter.c`    | Tokenize user input, dispatch commands, stage scripts.                                   |
+| Kernel                | `kernel.c`                    | Handle ready queue, scheduling, paging, and file operations.                             |
+| CPU Emulator          | `cpu.c`                       | Fetch and execute script lines per time slice.                                           |
+| PCB & Scheduling      | `pcb.c`, `linked_list.c`      | Maintain PCBs with program counters, file tables, and page metadata.                     |
+| Shell Memory          | `shellmemory.c`               | Simple variable store with frame allocation.                                             |
+| File System           | `blank.dsk`, `kernel.c`       | Simulate block-based file storage using a FAT and sector map.                            |
+
+## Backing Store & Paging
+
+When scripts are loaded via `run` or `exec`, they are copied into a temporary `backing_store/` directory.  
+Each script becomes a private file used for demand paging. The system supports a small fixed number of memory frames and uses **3-line pages** with **LRU replacement**. This structure mimics real-world virtual memory backed by secondary storage.
+
 ## Requirements
 
 - GCC compiler
@@ -55,22 +71,6 @@ To clean the build artifacts:
 ```bash
 make clean
 ```
-
-## Architecture Overview
-
-| Layer                 | Files                         | Responsibilities                                                                         |
-|-----------------------|-------------------------------|------------------------------------------------------------------------------------------|
-| Shell & Interpreter   | `shell.c`, `interpreter.c`    | Tokenize user input, dispatch commands, stage scripts.                                   |
-| Kernel                | `kernel.c`                    | Handle ready queue, scheduling, paging, and file operations.                             |
-| CPU Emulator          | `cpu.c`                       | Fetch and execute script lines per time slice.                                           |
-| PCB & Scheduling      | `pcb.c`, `linked_list.c`      | Maintain PCBs with program counters, file tables, and page metadata.                     |
-| Shell Memory          | `shellmemory.c`               | Simple variable store with frame allocation.                                             |
-| File System           | `blank.dsk`, `kernel.c`       | Simulate block-based file storage using a FAT and sector map.                            |
-
-## Backing Store & Paging
-
-When scripts are loaded via `run` or `exec`, they are copied into a temporary `backing_store/` directory.  
-Each script becomes a private file used for demand paging. The system supports a small fixed number of memory frames and uses **3-line pages** with **LRU replacement**. This structure mimics real-world virtual memory backed by secondary storage.
 
 ## Command Reference
 
