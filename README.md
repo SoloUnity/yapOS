@@ -98,6 +98,6 @@ make clean
 | `freespace`             | `freespace`                           | Shows free sectors and total free space.                      |
 | `fragmentation_degree`  | `fragmentation_degree`                | Calculates fragmentation for each file.                       |
 | `defragment`            | `defragment`                          | Rewrites files to be stored contiguously.                     |
-| `recover`               | `recover &lt;0&#124;1&gt;`            | Attempts file system repair (0 = thorough, 1 = fast).         |
+| `recover`               | `recover <0 or 1>`                    | Attempts file system repair (0 = thorough, 1 = fast).         |
 
 *Unknown or malformed commands return standardized error messages prefixed with `Bad command:`.*
